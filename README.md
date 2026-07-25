@@ -34,6 +34,21 @@ The default mode is `Area capture -> clipboard`, which is convenient for pasting
 
 This project was originally built and tested on an Intel Mac running macOS 15.7.7 with Xcode 16.4.
 
+## Download
+
+Prebuilt app zips are available from the GitHub Releases page.
+
+The release build is intentionally not signed with a paid Apple Developer certificate and is not notarized by Apple. This keeps the project simple and personal, but it also means macOS may show an "unidentified developer" warning the first time you open the app.
+
+If macOS blocks the app:
+
+1. Move `QuickCapture.app` to `/Applications`.
+2. Control-click `QuickCapture.app`.
+3. Choose `Open`.
+4. Confirm that you want to open it.
+
+You only need to do this manual open step once per downloaded build.
+
 ## Build And Run
 
 1. Open `QuickCapture.xcodeproj` in Xcode.
