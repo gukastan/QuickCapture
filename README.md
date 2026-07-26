@@ -100,6 +100,31 @@ You can also right click the menu bar icon and choose `Open Screen Recording Set
 
 If permission prompts keep repeating, make sure you are only running `/Applications/QuickCapture.app`, not an Xcode DerivedData build or another copied app bundle. During development, resetting the app's Screen Recording entry and then launching only the `/Applications` copy usually fixes repeated prompts.
 
+### Repeated Permission Prompts
+
+If Screen Recording permission keeps appearing after you already enabled it, macOS may have multiple privacy records for different copies of QuickCapture.
+
+The most reliable fix is:
+
+1. Quit QuickCapture.
+2. Keep only one daily-use copy at `/Applications/QuickCapture.app`.
+3. Reset the Screen Recording record for the app:
+
+```bash
+tccutil reset ScreenCapture local.quickcapture
+```
+
+4. Re-register the `/Applications` copy with macOS:
+
+```bash
+/System/Library/Frameworks/CoreServices.framework/Versions/Current/Frameworks/LaunchServices.framework/Versions/Current/Support/lsregister -f -R -trusted /Applications/QuickCapture.app
+```
+
+5. Open `/Applications/QuickCapture.app`.
+6. Run a capture once, allow Screen Recording permission, then quit and reopen when macOS asks.
+
+This is mainly useful while developing or replacing unsigned builds. Normal users should not need it unless permission prompts become stuck.
+
 ## File Output
 
 `Area capture -> save file` saves screenshots to the Desktop with names like:
