@@ -1,12 +1,27 @@
 import AppKit
 
 final class StatusBarController: NSObject {
+    private static let shortcutEnabledKey = "shortcutEnabled"
+
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     private let menu = NSMenu()
     private var selectedMode: CaptureMode
     private var modeItems: [CaptureMode: NSMenuItem] = [:]
     private var hotKeyController: HotKeyController?
+    private var shortcutEnabledItem: NSMenuItem?
     private var launchAtLoginItem: NSMenuItem?
+    private var isShortcutEnabled: Bool {
+        get {
+            if UserDefaults.standard.object(forKey: Self.shortcutEnabledKey) == nil {
+                return true
+            }
+
+            return UserDefaults.standard.bool(forKey: Self.shortcutEnabledKey)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Self.shortcutEnabledKey)
+        }
+    }
 
     override init() {
         selectedMode = CaptureMode.savedMode()
@@ -14,7 +29,7 @@ final class StatusBarController: NSObject {
         configureStatusItem()
         configureMenu()
         LoginItemController.applySavedPreference()
-        hotKeyController = HotKeyController { [weak self] in
+        hotKeyController = HotKeyController(isEnabled: isShortcutEnabled) { [weak self] in
             self?.runSelectedMode()
         }
     }
@@ -55,6 +70,15 @@ final class StatusBarController: NSObject {
         launchItem.target = self
         menu.addItem(launchItem)
         launchAtLoginItem = launchItem
+
+        let shortcutItem = NSMenuItem(
+            title: "Shortcut Enabled",
+            action: #selector(toggleShortcutEnabled),
+            keyEquivalent: ""
+        )
+        shortcutItem.target = self
+        menu.addItem(shortcutItem)
+        shortcutEnabledItem = shortcutItem
 
         let hotKeyItem = NSMenuItem(title: "Shortcut: Option-C", action: nil, keyEquivalent: "")
         hotKeyItem.isEnabled = false
@@ -116,6 +140,12 @@ final class StatusBarController: NSObject {
         updateMenuState()
     }
 
+    @objc private func toggleShortcutEnabled() {
+        isShortcutEnabled.toggle()
+        hotKeyController?.setEnabled(isShortcutEnabled)
+        updateMenuState()
+    }
+
     @objc private func openScreenCaptureSettings() {
         CaptureRunner.openScreenCaptureSettings()
     }
@@ -126,6 +156,7 @@ final class StatusBarController: NSObject {
         }
 
         launchAtLoginItem?.state = LoginItemController.isEnabled ? .on : .off
+        shortcutEnabledItem?.state = isShortcutEnabled ? .on : .off
         statusItem.button?.toolTip = tooltipText
     }
 
@@ -134,6 +165,10 @@ final class StatusBarController: NSObject {
     }
 
     private var tooltipText: String {
-        "QuickCapture: \(selectedMode.title)\nShortcut: Option + C"
+        if isShortcutEnabled {
+            return "QuickCapture: \(selectedMode.title)\nShortcut: Option + C"
+        }
+
+        return "QuickCapture: \(selectedMode.title)\nShortcut: Disabled"
     }
 }

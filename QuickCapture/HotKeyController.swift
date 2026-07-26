@@ -8,17 +8,40 @@ final class HotKeyController {
     private var eventHandlerRef: EventHandlerRef?
     private var hotKeyRef: EventHotKeyRef?
     private let action: () -> Void
+    private(set) var isEnabled: Bool
 
-    init(action: @escaping () -> Void) {
+    init(isEnabled: Bool, action: @escaping () -> Void) {
+        self.isEnabled = isEnabled
         self.action = action
-        register()
+
+        if isEnabled {
+            register()
+        }
     }
 
     deinit {
         unregister()
     }
 
+    func setEnabled(_ isEnabled: Bool) {
+        guard self.isEnabled != isEnabled else {
+            return
+        }
+
+        self.isEnabled = isEnabled
+
+        if isEnabled {
+            register()
+        } else {
+            unregister()
+        }
+    }
+
     private func register() {
+        guard eventHandlerRef == nil, hotKeyRef == nil else {
+            return
+        }
+
         var eventType = EventTypeSpec(
             eventClass: OSType(kEventClassKeyboard),
             eventKind: UInt32(kEventHotKeyPressed)
@@ -95,10 +118,12 @@ final class HotKeyController {
     private func unregister() {
         if let hotKeyRef {
             UnregisterEventHotKey(hotKeyRef)
+            self.hotKeyRef = nil
         }
 
         if let eventHandlerRef {
             RemoveEventHandler(eventHandlerRef)
+            self.eventHandlerRef = nil
         }
     }
 
