@@ -80,7 +80,7 @@ final class StatusBarController: NSObject {
         menu.addItem(shortcutItem)
         shortcutEnabledItem = shortcutItem
 
-        let hotKeyItem = NSMenuItem(title: "Shortcut: Option-C", action: nil, keyEquivalent: "")
+        let hotKeyItem = NSMenuItem(title: "Shortcut: Option-X", action: nil, keyEquivalent: "")
         hotKeyItem.isEnabled = false
         menu.addItem(hotKeyItem)
 
@@ -166,7 +166,7 @@ final class StatusBarController: NSObject {
 
     private var tooltipText: String {
         if isShortcutEnabled {
-            return "QuickCapture: \(selectedMode.title)\nShortcut: Option + C"
+            return "QuickCapture: \(selectedMode.title)\nShortcut: Option + X"
         }
 
         return "QuickCapture: \(selectedMode.title)\nShortcut: Disabled"
