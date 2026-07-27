@@ -45,10 +45,10 @@ enum CaptureRunner {
         NSApp.activate(ignoringOtherApps: true)
 
         let alert = NSAlert()
-        alert.messageText = "QuickCapture needs to restart"
-        alert.informativeText = "Screen Recording permission was allowed. Quit and reopen QuickCapture once, then capture will work normally."
-        alert.addButton(withTitle: "Quit QuickCapture")
-        alert.addButton(withTitle: "Later")
+        alert.messageText = "QuickCapture를 다시 실행해야 합니다"
+        alert.informativeText = "화면 기록 권한이 허용되었습니다. QuickCapture를 한 번 종료한 뒤 다시 실행하면 캡처 기능을 정상적으로 사용할 수 있습니다."
+        alert.addButton(withTitle: "QuickCapture 종료")
+        alert.addButton(withTitle: "나중에")
 
         if alert.runModal() == .alertFirstButtonReturn {
             NSApp.terminate(nil)

@@ -63,7 +63,7 @@ final class StatusBarController: NSObject {
         menu.addItem(.separator())
 
         let launchItem = NSMenuItem(
-            title: "Launch at Login",
+            title: "로그인 시 자동 실행",
             action: #selector(toggleLaunchAtLogin),
             keyEquivalent: ""
         )
@@ -72,7 +72,7 @@ final class StatusBarController: NSObject {
         launchAtLoginItem = launchItem
 
         let shortcutItem = NSMenuItem(
-            title: "Shortcut Enabled",
+            title: "Option-X 단축키 사용",
             action: #selector(toggleShortcutEnabled),
             keyEquivalent: ""
         )
@@ -80,12 +80,12 @@ final class StatusBarController: NSObject {
         menu.addItem(shortcutItem)
         shortcutEnabledItem = shortcutItem
 
-        let hotKeyItem = NSMenuItem(title: "Shortcut: Option-X", action: nil, keyEquivalent: "")
+        let hotKeyItem = NSMenuItem(title: "단축키: Option-X", action: nil, keyEquivalent: "")
         hotKeyItem.isEnabled = false
         menu.addItem(hotKeyItem)
 
         let screenCaptureSettingsItem = NSMenuItem(
-            title: "Open Screen Recording Settings",
+            title: "화면 기록 설정 열기",
             action: #selector(openScreenCaptureSettings),
             keyEquivalent: ""
         )
@@ -95,7 +95,7 @@ final class StatusBarController: NSObject {
         menu.addItem(.separator())
 
         let quitItem = NSMenuItem(
-            title: "Quit QuickCapture",
+            title: "QuickCapture 종료",
             action: #selector(quit),
             keyEquivalent: "q"
         )
@@ -166,9 +166,9 @@ final class StatusBarController: NSObject {
 
     private var tooltipText: String {
         if isShortcutEnabled {
-            return "QuickCapture: \(selectedMode.title)\nShortcut: Option + X"
+            return "QuickCapture: \(selectedMode.title)\n단축키: Option + X"
         }
 
-        return "QuickCapture: \(selectedMode.title)\nShortcut: Disabled"
+        return "QuickCapture: \(selectedMode.title)\n단축키: 사용 안 함"
     }
 }
