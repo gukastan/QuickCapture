@@ -11,26 +11,26 @@ enum CaptureMode: String, CaseIterable {
     var title: String {
         switch self {
         case .areaToFile:
-            return "Area -> File"
+            return "영역 → 파일"
         case .areaToClipboard:
-            return "Area -> Clipboard"
+            return "영역 → 클립보드"
         case .windowToClipboard:
-            return "Window -> Clipboard"
+            return "창 → 클립보드"
         case .fullScreenToClipboard:
-            return "Full Screen -> Clipboard"
+            return "전체 화면 → 클립보드"
         }
     }
 
     var menuTitle: String {
         switch self {
         case .areaToFile:
-            return "Area Capture -> Save File"
+            return "영역 캡처 → 파일 저장"
         case .areaToClipboard:
-            return "Area Capture -> Clipboard"
+            return "영역 캡처 → 클립보드 복사"
         case .windowToClipboard:
-            return "Window Capture -> Clipboard"
+            return "창 캡처 → 클립보드 복사"
         case .fullScreenToClipboard:
-            return "Full Screen -> Clipboard"
+            return "전체 화면 캡처 → 클립보드 복사"
         }
     }
 
