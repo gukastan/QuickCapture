@@ -48,6 +48,14 @@ final class StatusBarController: NSObject {
     }
 
     private func configureMenu() {
+        let captureActionHeader = NSMenuItem(
+            title: "좌클릭·option + X 실행 동작",
+            action: nil,
+            keyEquivalent: ""
+        )
+        captureActionHeader.isEnabled = false
+        menu.addItem(captureActionHeader)
+
         for mode in CaptureMode.allCases {
             let item = NSMenuItem(
                 title: mode.menuTitle,
@@ -62,8 +70,16 @@ final class StatusBarController: NSObject {
 
         menu.addItem(.separator())
 
+        let appSettingsHeader = NSMenuItem(
+            title: "앱 설정",
+            action: nil,
+            keyEquivalent: ""
+        )
+        appSettingsHeader.isEnabled = false
+        menu.addItem(appSettingsHeader)
+
         let launchItem = NSMenuItem(
-            title: "로그인 시 자동 실행",
+            title: "Mac 로그인 시 QuickCapture 자동 시작",
             action: #selector(toggleLaunchAtLogin),
             keyEquivalent: ""
         )
@@ -72,7 +88,7 @@ final class StatusBarController: NSObject {
         launchAtLoginItem = launchItem
 
         let shortcutItem = NSMenuItem(
-            title: "Option-X 단축키 사용",
+            title: "전역 실행 단축키 사용 (option + X)",
             action: #selector(toggleShortcutEnabled),
             keyEquivalent: ""
         )
@@ -80,12 +96,18 @@ final class StatusBarController: NSObject {
         menu.addItem(shortcutItem)
         shortcutEnabledItem = shortcutItem
 
-        let hotKeyItem = NSMenuItem(title: "단축키: Option-X", action: nil, keyEquivalent: "")
-        hotKeyItem.isEnabled = false
-        menu.addItem(hotKeyItem)
+        menu.addItem(.separator())
+
+        let permissionHeader = NSMenuItem(
+            title: "권한 및 문제 해결",
+            action: nil,
+            keyEquivalent: ""
+        )
+        permissionHeader.isEnabled = false
+        menu.addItem(permissionHeader)
 
         let screenCaptureSettingsItem = NSMenuItem(
-            title: "화면 및 시스템 오디오 녹음 설정 열기",
+            title: "화면 캡처 권한 설정 열기… (시스템 설정)",
             action: #selector(openScreenCaptureSettings),
             keyEquivalent: ""
         )
@@ -93,7 +115,7 @@ final class StatusBarController: NSObject {
         menu.addItem(screenCaptureSettingsItem)
 
         let resetScreenCapturePermissionItem = NSMenuItem(
-            title: "화면 캡처 권한 초기화…",
+            title: "화면 캡처 권한 다시 설정… (문제 발생 시)",
             action: #selector(resetScreenCapturePermission),
             keyEquivalent: ""
         )
@@ -103,9 +125,9 @@ final class StatusBarController: NSObject {
         menu.addItem(.separator())
 
         let quitItem = NSMenuItem(
-            title: "QuickCapture 종료",
+            title: "QuickCapture 종료 (⌘ + Q)",
             action: #selector(quit),
-            keyEquivalent: "q"
+            keyEquivalent: ""
         )
         quitItem.target = self
         menu.addItem(quitItem)
@@ -217,7 +239,7 @@ final class StatusBarController: NSObject {
 
     private var tooltipText: String {
         if isShortcutEnabled {
-            return "QuickCapture: \(selectedMode.title)\n단축키: Option + X"
+            return "QuickCapture: \(selectedMode.title)\n단축키: option + X"
         }
 
         return "QuickCapture: \(selectedMode.title)\n단축키: 사용 안 함"
