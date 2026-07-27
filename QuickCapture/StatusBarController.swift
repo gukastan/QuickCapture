@@ -85,12 +85,20 @@ final class StatusBarController: NSObject {
         menu.addItem(hotKeyItem)
 
         let screenCaptureSettingsItem = NSMenuItem(
-            title: "화면 기록 설정 열기",
+            title: "화면 및 시스템 오디오 녹음 설정 열기",
             action: #selector(openScreenCaptureSettings),
             keyEquivalent: ""
         )
         screenCaptureSettingsItem.target = self
         menu.addItem(screenCaptureSettingsItem)
+
+        let resetScreenCapturePermissionItem = NSMenuItem(
+            title: "화면 캡처 권한 초기화…",
+            action: #selector(resetScreenCapturePermission),
+            keyEquivalent: ""
+        )
+        resetScreenCapturePermissionItem.target = self
+        menu.addItem(resetScreenCapturePermissionItem)
 
         menu.addItem(.separator())
 
@@ -148,6 +156,49 @@ final class StatusBarController: NSObject {
 
     @objc private func openScreenCaptureSettings() {
         CaptureRunner.openScreenCaptureSettings()
+    }
+
+    @objc private func resetScreenCapturePermission() {
+        NSApp.activate(ignoringOtherApps: true)
+
+        let confirmation = NSAlert()
+        confirmation.alertStyle = .warning
+        confirmation.messageText = "화면 캡처 권한을 초기화할까요?"
+        confirmation.informativeText = "QuickCapture의 기존 화면 및 시스템 오디오 녹음 권한 기록을 지웁니다. 앱을 다시 실행한 뒤 캡처를 한 번 실행하면 권한을 새로 요청합니다."
+        confirmation.addButton(withTitle: "권한 초기화")
+        confirmation.addButton(withTitle: "취소")
+
+        guard confirmation.runModal() == .alertFirstButtonReturn else {
+            return
+        }
+
+        CaptureRunner.resetScreenCapturePermission { [weak self] result in
+            self?.showPermissionResetResult(result)
+        }
+    }
+
+    private func showPermissionResetResult(_ result: Result<Void, Error>) {
+        NSApp.activate(ignoringOtherApps: true)
+
+        let alert = NSAlert()
+
+        switch result {
+        case .success:
+            alert.messageText = "권한 초기화 완료"
+            alert.informativeText = "QuickCapture를 종료하고 다시 실행한 뒤 캡처를 한 번 실행하세요. macOS가 요청하면 화면 및 시스템 오디오 녹음 권한을 허용하고 앱을 다시 실행하세요."
+            alert.addButton(withTitle: "QuickCapture 종료")
+            alert.addButton(withTitle: "나중에")
+
+            if alert.runModal() == .alertFirstButtonReturn {
+                NSApp.terminate(nil)
+            }
+        case .failure(let error):
+            alert.alertStyle = .critical
+            alert.messageText = "권한을 초기화하지 못했습니다"
+            alert.informativeText = error.localizedDescription
+            alert.addButton(withTitle: "확인")
+            alert.runModal()
+        }
     }
 
     private func updateMenuState() {

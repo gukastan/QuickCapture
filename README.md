@@ -14,7 +14,8 @@ QuickCapture는 macOS의 기본 스크린샷 기능을 한 번의 클릭이나 �
 - 마지막으로 선택한 캡처 기능을 재부팅 후에도 기억
 - 로그인 시 자동 실행 설정
 - Dock 아이콘 없이 메뉴 막대에서만 실행
-- 화면 기록 권한 설정 바로가기
+- 화면 및 시스템 오디오 녹음 권한 설정 바로가기
+- 꼬인 화면 캡처 권한을 앱에서 초기화하는 기능
 - 별도의 캡처 엔진 대신 macOS 기본 `/usr/sbin/screencapture` 사용
 - Intel Mac과 Apple Silicon Mac 모두 지원하는 Universal 앱
 
@@ -40,7 +41,8 @@ QuickCapture는 macOS의 기본 스크린샷 기능을 한 번의 클릭이나 �
 - 캡처 기능 선택
 - 로그인 시 자동 실행 켜기 또는 끄기
 - `Option + X` 단축키 켜기 또는 끄기
-- 화면 기록 설정 열기
+- 화면 및 시스템 오디오 녹음 설정 열기
+- 화면 캡처 권한 초기화
 - QuickCapture 종료
 
 현재 선택된 캡처 기능에는 체크 표시가 나타납니다. 선택한 기능과 단축키 설정은 앱을 종료하거나 Mac을 재부팅해도 유지됩니다.
@@ -68,10 +70,10 @@ QuickCapture는 macOS의 기본 스크린샷 기능을 한 번의 클릭이나 �
 2. ZIP 파일의 압축을 풉니다.
 3. `QuickCapture.app`을 `/Applications` 폴더로 옮깁니다.
 4. 아래의 **확인되지 않은 개발자 차단 해결 방법**에 따라 처음 한 번 앱 실행을 승인합니다.
-5. 화면 기록 권한을 허용합니다.
+5. 화면 및 시스템 오디오 녹음 권한을 허용합니다.
 6. 권한을 허용한 뒤 QuickCapture를 한 번 종료하고 다시 실행합니다.
 
-앱을 여러 폴더에서 동시에 실행하지 마세요. macOS의 화면 기록 권한은 앱 번들과 위치의 영향을 받을 수 있으므로 `/Applications/QuickCapture.app` 한 개만 사용하는 것이 좋습니다.
+앱을 여러 폴더에서 동시에 실행하지 마세요. macOS의 화면 및 시스템 오디오 녹음 권한은 앱 번들과 코드 서명의 영향을 받을 수 있으므로 `/Applications/QuickCapture.app` 한 개만 사용하는 것이 좋습니다.
 
 ## 확인되지 않은 개발자 차단 해결 방법
 
@@ -102,27 +104,44 @@ QuickCapture는 macOS의 기본 스크린샷 기능을 한 번의 클릭이나 �
 
 Apple 공식 안내: [알 수 없는 개발자의 Mac 앱 열기](https://support.apple.com/ko-kr/guide/mac-help/-mh40616/mac)
 
-## 화면 기록 권한
+## 화면 및 시스템 오디오 녹음 권한
 
-QuickCapture가 스크린샷을 실행하려면 macOS의 화면 기록 권한이 필요합니다.
+QuickCapture가 스크린샷을 실행하려면 macOS의 화면 및 시스템 오디오 녹음 권한이 필요합니다.
 
 캡처가 작동하지 않는 경우:
 
 1. Apple 메뉴 `` → **시스템 설정**을 엽니다.
 2. **개인정보 보호 및 보안**으로 이동합니다.
-3. **화면 및 시스템 오디오 기록** 또는 **화면 기록**을 엽니다.
+3. **화면 및 시스템 오디오 녹음** 또는 macOS 버전에 따라 표시되는 **화면 기록**을 엽니다.
 4. QuickCapture를 켭니다.
 5. QuickCapture를 종료하고 다시 실행합니다.
 
-우클릭 메뉴의 **화면 기록 설정 열기**를 사용해 해당 설정으로 바로 이동할 수도 있습니다.
+우클릭 메뉴의 **화면 및 시스템 오디오 녹음 설정 열기**를 사용해 해당 설정으로 바로 이동할 수도 있습니다.
 
-권한 요청이 계속 반복되면 `/Applications/QuickCapture.app`만 남기고 Xcode 빌드나 다른 폴더의 복사본은 종료하세요. 개발 중 권한 기록이 꼬인 경우 다음 명령으로 화면 기록 권한을 초기화할 수 있습니다.
+### 권한 설정이 꼬였을 때
+
+QuickCapture가 목록에 여러 번 나타나거나, 권한을 켰는데도 계속 요청하거나, 캡처가 작동하지 않으면 다음 순서로 초기화하세요.
+
+1. 다른 폴더와 Xcode에서 실행 중인 QuickCapture를 모두 종료합니다.
+2. `/Applications/QuickCapture.app` 한 개만 남깁니다.
+3. QuickCapture를 실행하고 메뉴 막대 아이콘을 우클릭합니다.
+4. **화면 캡처 권한 초기화…**를 선택합니다.
+5. 확인창에서 **권한 초기화**를 선택한 뒤 QuickCapture를 종료합니다.
+6. `/Applications/QuickCapture.app`을 다시 실행합니다.
+7. 캡처를 한 번 실행하고 macOS가 요청하면 화면 및 시스템 오디오 녹음 권한을 허용합니다.
+8. QuickCapture를 한 번 더 종료하고 다시 실행합니다.
+
+앱의 초기화 메뉴를 사용할 수 없는 경우 터미널에서 다음 명령을 실행할 수 있습니다.
 
 ```bash
 tccutil reset ScreenCapture local.quickcapture
 ```
 
-초기화 후 `/Applications/QuickCapture.app`을 다시 실행하고 화면 기록 권한을 허용하세요.
+초기화 후 `/Applications/QuickCapture.app`을 다시 실행하고 화면 및 시스템 오디오 녹음 권한을 허용하세요.
+
+이 앱의 공개 빌드는 유료 Developer ID 인증서가 없는 임시 서명 빌드입니다. Apple은 임시 서명 앱의 권한 식별자가 코드 버전에 묶이므로 업데이트 후 권한을 다시 요청할 수 있다고 안내합니다. 모든 업데이트에서 권한을 자동으로 유지하고 확인되지 않은 개발자 경고까지 없애려면 유료 Apple Developer 계정의 Developer ID 인증서로 서명하고 공증해야 합니다.
+
+Apple 공식 설명: [TN3127: Inside Code Signing: Requirements](https://developer.apple.com/documentation/technotes/tn3127-inside-code-signing-requirements)
 
 ## 파일 저장
 
