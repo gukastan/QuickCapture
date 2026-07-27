@@ -111,7 +111,7 @@ final class HotKeyController {
         )
 
         if registerStatus != noErr {
-            NSLog("QuickCapture failed to register Option-X: \(registerStatus)")
+            NSLog("QuickCapture에서 option + X 단축키를 등록하지 못했습니다: \(registerStatus)")
         }
     }
 
