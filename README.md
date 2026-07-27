@@ -1,15 +1,15 @@
-# QuickCapture
+# QuickCapture for macOS
 
 QuickCapture is a tiny macOS menu bar app that turns the built-in screenshot tool into a one-click action.
 
-It is intentionally small: no editor, no cloud sync, no account, no tracking. Pick a capture mode from the menu bar once, then run it again with a left click or `Option + C`.
+It is intentionally small: no editor, no cloud sync, no account, no tracking. Pick a capture mode from the menu bar once, then run it again with a left click or `Option + X`.
 
 ## Features
 
 - Menu bar camera icon
 - Left click runs the currently selected screenshot mode
 - Right click opens the mode menu and app controls
-- Global shortcut: `Option + C`
+- Global shortcut: `Option + X`
 - Temporarily disable or re-enable the global shortcut from the menu
 - Remembers the selected mode with `UserDefaults`
 - Launches at login, with a menu toggle to turn that off
@@ -57,7 +57,7 @@ You only need to do this manual open step once per downloaded build.
 3. Press Run.
 4. Look for the camera icon in the right side of the menu bar.
 5. Right click the camera icon and choose a capture mode.
-6. Left click the icon, or press `Option + C`, to run the selected mode.
+6. Left click the icon, or press `Option + X`, to run the selected mode.
 
 For everyday use, build the app and move `QuickCapture.app` into `/Applications`. Keeping the app in one stable location helps macOS remember screen recording permission correctly.
 
@@ -67,7 +67,7 @@ Right click the menu bar icon and use `Shortcut Enabled` to temporarily turn the
 
 When the shortcut is disabled:
 
-- `Option + C` is released for other apps to use
+- `Option + X` is released for other apps to use
 - the menu bar camera icon still works
 - left click still runs the selected capture mode
 - the disabled state is remembered after quitting or rebooting
@@ -160,7 +160,7 @@ QuickCapture is an AppKit menu bar app built around `NSStatusItem`.
 - `StatusBarController.swift` manages the camera icon, left click, right click menu, and tooltip.
 - `CaptureMode.swift` defines the four screenshot modes and persists the selected mode.
 - `CaptureRunner.swift` launches macOS's built-in `screencapture` command.
-- `HotKeyController.swift` registers, disables, and re-enables the global `Option + C` shortcut.
+- `HotKeyController.swift` registers, disables, and re-enables the global `Option + X` shortcut.
 - `LoginItemController.swift` registers launch-at-login behavior with `ServiceManagement`.
 - `Info.plist` sets `LSUIElement` so the app stays out of the Dock.
 

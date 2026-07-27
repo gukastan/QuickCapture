@@ -102,7 +102,7 @@ final class HotKeyController {
 
         let modifiers = UInt32(optionKey)
         let registerStatus = RegisterEventHotKey(
-            UInt32(kVK_ANSI_C),
+            UInt32(kVK_ANSI_X),
             modifiers,
             hotKeyID,
             GetApplicationEventTarget(),
@@ -111,7 +111,7 @@ final class HotKeyController {
         )
 
         if registerStatus != noErr {
-            NSLog("QuickCapture failed to register Option-C: \(registerStatus)")
+            NSLog("QuickCapture failed to register Option-X: \(registerStatus)")
         }
     }
 
